@@ -7,7 +7,6 @@ export default {
     // здесь запись в api — axios
     // Пока запишем просто в файл
     utilities.downloadFile('user.json', userInfo)
-    document.cookie = `user=${JSON.stringify(userInfo)}`
 
     // если успешно в axios, то в then() записали в store
     commit('setUserInfo', userInfo)
