@@ -17,20 +17,23 @@
 
   export default {
     name: 'page-profile',
-    created() {
-      if (this.$cookies.get('profile')) {
-        this.profile = this.$cookies.get('profile')
+    data() {
+      return {
+        profile: {
+          country: ''
+        }
       }
     },
+    created() {
+      this.profile = Object.assign({}, this.profileInfo)
+    },
     beforeRouteLeave(to, from, next) {
-      if (!utilities.compareObjects(this.$cookies.get('profile'), JSON.stringify(this.profile))) {
+      if (!utilities.compareObjects(this.profile, this.profileInfo)) {
         let conf = confirm('Данные не сохранены, хотите покинуть страницу?')
 
         if (!conf) {
           next(false)
         } else {
-          this.profile = this.$cookies.get('profile')
-
           next()
         }
       } else {
@@ -38,21 +41,10 @@
       }
     },
     computed: {
-      ...mapState('profile', ['profileInfo']),
-
-      profile: {
-        get() {
-          return this.profileInfo
-        },
-        set(val) {
-          this.setProfile(val)
-        }
-      }
+      ...mapState('profile', ['profileInfo'])
     },
     methods: {
-      ...mapActions('profile', ['saveProfile']),
-
-      ...mapMutations('profile', ['setProfile'])
+      ...mapActions('profile', ['saveProfile'])
     }
   }
 </script>

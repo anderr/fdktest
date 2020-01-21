@@ -20,25 +20,29 @@
 </template>
 
 <script>
-  import { mapState, mapMutations, mapActions } from 'vuex'
+  import { mapState, mapActions } from 'vuex'
   import utilities from '~/assets/js/utilities'
 
   export default {
     name: 'page-userinfo',
-    created() {
-      if (this.$cookies.get('user')) {
-        this.user = this.$cookies.get('user')
+    data() {
+      return {
+        user: {
+          name: '',
+          surname: ''
+        }
       }
     },
+    created() {
+      this.user = Object.assign({}, this.userInfo)
+    },
     beforeRouteLeave(to, from, next) {
-      if (!utilities.compareObjects(this.$cookies.get('user'), JSON.stringify(this.user))) {
+      if (!utilities.compareObjects(this.user, this.userInfo)) {
         let conf = confirm('Данные не сохранены, хотите покинуть страницу?')
 
         if (!conf) {
           next(false)
         } else {
-          this.user = this.$cookies.get('user')
-
           next()
         }
       } else {
@@ -46,21 +50,10 @@
       }
     },
     computed: {
-      ...mapState('user', ['userInfo']),
-
-      user: {
-        get() {
-          return this.userInfo
-        },
-        set(val) {
-          this.setUserInfo(val)
-        }
-      }
+      ...mapState('user', ['userInfo'])
     },
     methods: {
-      ...mapActions('user', ['saveUserInfo']),
-
-      ...mapMutations('user', ['setUserInfo'])
+      ...mapActions('user', ['saveUserInfo'])
     }
   }
 </script>

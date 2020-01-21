@@ -4,7 +4,7 @@ import mutations from './mutations';
 
 const defaultState = {
   profileInfo: {
-    "country": 'Russia'
+    country: 'Russia'
   }
 }
 

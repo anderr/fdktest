@@ -2,12 +2,10 @@ import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
 
-// const userJson = JSON.parse($cookies.get('user'))
-
 const defaultState = {
   userInfo: {
-    "name": "Gennadiy",
-    "surname": "Bukin"
+    name: 'Gennadiy',
+    surname: 'Bukin'
   }
 }
 
